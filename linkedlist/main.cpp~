@@ -1,0 +1,23 @@
+
+typedef struct Node {
+  int data;
+  struct Node *next;
+} *node, Node;
+
+push(node *headRef, int data) {
+  node newNode = malloc(sizeof(Node));
+  newNode->data = data;
+  newNode->next = *headRef;
+  *headRef = newNode;
+}
+
+pushr(node &headRef, int data) {
+  node newNode = malloc(sizeof(Node));
+  newNode->next = 
+}
+
+int main() {
+
+
+  return 0;
+}
