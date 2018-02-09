@@ -167,6 +167,24 @@ node buildList(const int length) {
   return dummy.next;
 }
 
+// https://www.geeksforgeeks.org/reverse-a-linked-list/
+void reverse_list(node &headRef) {
+  if (!headRef) {
+    return;
+  }
+  
+  node prev = headRef;
+  node cur = headRef->next;
+  headRef->next = NULL;
+  while (cur) {
+    node tmp_next = cur->next;
+    cur->next = prev;
+    prev = cur;
+    cur = tmp_next;
+  }
+  headRef = prev;
+}
+
 node buildListReverse(const int length) {
   node head = NULL;
   for(int i = 0; i < length; i++) {
@@ -236,6 +254,9 @@ int main() {
   printf("find %u th node from end.", idx);
   node n3e = find_n_node_from_end(nh2, idx);
   printf(": is %i\n", n3e->data);
+
+  reverse_list(nh2);
+  print("reversed list", nh2);
 
   freeList(head);
   freeList(head1);
