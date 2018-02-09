@@ -1,6 +1,8 @@
 
 #include "stdio.h"
 #include <stdlib.h>
+#include <algorithm>    /* swap */
+#include <assert.h>     /* assert */
 
 typedef struct Node {
   int data;
@@ -76,6 +78,54 @@ void append(node &headRef, int data) {
   pushr(find_tail(headRef)->next, data);
 }
 
+bool swap(node &headRef, int d1, int d2) {
+  // both pre1->next = d2;
+  // pre2->next = d1;
+  // swap(d1->next, d2->next);
+  // d1->next = d2->next;
+  // if any pre is NULL, then header also need be updated
+  node cur = headRef;
+  node pre = NULL;
+  node pre1, pre2 = NULL;
+  node n1, n2 = NULL;
+  while (cur) {
+    if (cur->data == d1) {
+      pre1 = pre;
+      n1 = cur;
+    }
+    if (cur->data == d2) {
+      pre2 = pre;
+      n2 = cur;
+    }
+    if (n1 && n2) {
+      break;
+    }
+    pre = cur;
+    cur = cur->next;
+  }
+  if (!(n1 && n2)) {
+    printf("Cannot find %i && %i\n", d1, d2);
+    return false;
+  }
+  if (pre1 && pre2) {
+    pre1->next = n2;
+    pre2->next = n1;
+  } else{
+    if (!pre1) {
+      assert(pre2);
+      headRef = n2;
+      pre2->next = n1;
+    } else {
+      assert(pre1);
+      headRef = n1;
+      pre1->next = n2;
+    }
+  }
+  
+  std::swap(n1->next,n2->next);
+  return true;
+}
+
 node buildList(const int length) {
   Node dummy;
   node tail = &dummy;
@@ -140,6 +190,11 @@ int main() {
   
   node nh = copy_list(head1);
   print("copied_list", nh);
+
+  int d1 = 0; int d2 = 5;
+  swap(nh, d1, d2);
+  printf("swapping %i %i\n", d1, d2);
+  print("swapped list", nh);
 
   node nh2 = copy_list_recursive(head1);
   print("copied_list_recursive", nh2);
