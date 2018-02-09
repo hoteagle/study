@@ -78,6 +78,15 @@ void append(node &headRef, int data) {
   pushr(find_tail(headRef)->next, data);
 }
 
+node find_middle(node head) {
+  node cur1x = head; node cur2x = head;
+  while(cur2x) {
+    cur1x = cur1x->next;
+    cur2x = (cur2x->next) ? cur2x->next->next : cur2x->next;
+  }
+  return cur1x;
+}
+
 bool swap(node &headRef, int d1, int d2) {
   // both pre1->next = d2;
   // pre2->next = d1;
@@ -198,6 +207,9 @@ int main() {
 
   node nh2 = copy_list_recursive(head1);
   print("copied_list_recursive", nh2);
+
+  node mid = find_middle(nh2);
+  printf("find middle of nh2 = %i.\n", mid ? mid->data: -1);
   freeList(head);
   freeList(head1);
   freeList(nh);
