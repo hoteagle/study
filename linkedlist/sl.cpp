@@ -78,6 +78,7 @@ void append(node &headRef, int data) {
   pushr(find_tail(headRef)->next, data);
 }
 
+//https://www.geeksforgeeks.org/write-a-c-function-to-print-the-middle-of-the-linked-list/
 node find_middle(node head) {
   node cur1x = head; node cur2x = head;
   while(cur2x) {
@@ -85,6 +86,26 @@ node find_middle(node head) {
     cur2x = (cur2x->next) ? cur2x->next->next : cur2x->next;
   }
   return cur1x;
+}
+
+//https://www.geeksforgeeks.org/nth-node-from-the-end-of-a-linked-list/
+node find_n_node_from_end(const node head, unsigned n) {
+  node cur = head; node cur_n = head;
+  unsigned cnt = 0;
+  while(cur_n && cnt < n) {
+    cur_n = cur_n->next;
+    cnt++;
+  }
+  if (cnt < n) {
+    assert(!cur_n);
+    printf("linked list is too short %u < %u\n", cnt, n);
+    return NULL;
+  }
+  while (cur_n) {
+    cur = cur->next;
+    cur_n = cur_n->next;
+  }
+  return cur;
 }
 
 bool swap(node &headRef, int d1, int d2) {
@@ -210,6 +231,12 @@ int main() {
 
   node mid = find_middle(nh2);
   printf("find middle of nh2 = %i.\n", mid ? mid->data: -1);
+
+  unsigned idx = 5;
+  printf("find %u th node from end.", idx);
+  node n3e = find_n_node_from_end(nh2, idx);
+  printf(": is %i\n", n3e->data);
+
   freeList(head);
   freeList(head1);
   freeList(nh);
